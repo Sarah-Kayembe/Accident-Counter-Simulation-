@@ -1,0 +1,112 @@
+/**
+ * program4 - A main method used to read a CSV file of type AccidentReport
+ * @author esther greene
+ * @version February 26, 2024
+ */
+
+
+package accidentpack;
+
+import java.io.BufferedReader;
+import java.io.FileReader; 
+import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.time.LocalDateTime;
+
+/**
+ * main A main method used to implement an AccidentReport object
+ * @see https://www.geeksforgeeks.org/queue-interface-java/
+ * @see https://www.techieclues.com/blogs/converting-a-list-to-a-queue-in-java
+ * @see https://www.geeksforgeeks.org/java-io-bufferedreader-class-java/
+ * @see https://www.geeksforgeeks.org/initializing-a-list-in-java/
+ * @see https://www.geeksforgeeks.org/how-to-sort-arraylist-using-comparator/
+ * @see https://stackoverflow.com/questions/47541459/no-enclosing-instance-is-accessible-must-qualify-the-allocation-with-an-enclosi
+ * @see https://stackoverflow.com/questions/29121371/arraylist-to-emulate-a-queue-java
+ * @see https://www.benchresources.net/java-8-how-to-sort-list-by-java-time-localdatetime-in-4-ways/
+ *
+ */
+public class program4 {
+
+	public static void main(String[]args) throws NumberFormatException, IOException {
+		
+		String filePath = "C:\\Users\\eggyc\\Downloads\\accidents_small_sample.csv";
+		String line = "";
+		
+		// list
+		List<AccidentReport> accidents = new ArrayList<>();
+		// buffered reader
+		BufferedReader br = new BufferedReader(new FileReader(filePath));
+		// accidentReport
+		AccidentReader.accidentReport(accidents, br);
+		
+		QueueSim queue1 = new QueueSim(accidents); 
+	    Collections.sort(accidents, new DateComparator());
+		queue1.simulation();
+		 
+			for(int i=0; i<accidents.size();i++) {
+			System.out.println(accidents.get(i).getSeverity() + " " + accidents.get(i).getStartTime());
+
+		}		 
+		
+//	        for (AccidentReport acc : accidents) { 
+//	            System.out.println(acc.getID() + " " + acc.getSeverity() 
+//	                               + " " + acc.getStartTime()); 
+//	        } 
+
+		}
+	}
+
+
+/**
+ * SeverityComparator A comparator that sorts an ArrayList of type AccidentReports by secerity number
+ * @author esther greene
+ * @see https://www.geeksforgeeks.org/queue-interface-java/
+ * @see https://www.techieclues.com/blogs/converting-a-list-to-a-queue-in-java
+ * @see https://www.geeksforgeeks.org/java-io-bufferedreader-class-java/
+ * @see https://www.geeksforgeeks.org/initializing-a-list-in-java/
+ * @see https://www.geeksforgeeks.org/how-to-sort-arraylist-using-comparator/
+ * @see https://stackoverflow.com/questions/47541459/no-enclosing-instance-is-accessible-must-qualify-the-allocation-with-an-enclosi
+ * @see https://stackoverflow.com/questions/29121371/arraylist-to-emulate-a-queue-java
+ * @see https://www.benchresources.net/java-8-how-to-sort-list-by-java-time-localdatetime-in-4-ways/
+ */
+class SeverityComparator implements Comparator<AccidentReport> { 
+  
+    // override the compare() method 
+    public int compare(AccidentReport s1, AccidentReport s2) 
+    { 
+        if (s1.getSeverity() == s2.getSeverity()) 
+            return 0; 
+        else if (s1.getSeverity() > s2.getSeverity()) 
+            return 1; 
+        else
+            return -1; 
+    }
+    
+}
+
+/**
+ * DateComparator A comparator that sorts an ArrayList of type AccidentReports by starting time value
+ * @author esther greene
+ * @see https://www.geeksforgeeks.org/queue-interface-java/
+ * @see https://www.techieclues.com/blogs/converting-a-list-to-a-queue-in-java
+ * @see https://www.geeksforgeeks.org/java-io-bufferedreader-class-java/
+ * @see https://www.geeksforgeeks.org/initializing-a-list-in-java/
+ * @see https://www.geeksforgeeks.org/how-to-sort-arraylist-using-comparator/
+ * @see https://stackoverflow.com/questions/47541459/no-enclosing-instance-is-accessible-must-qualify-the-allocation-with-an-enclosi
+ * @see https://stackoverflow.com/questions/29121371/arraylist-to-emulate-a-queue-java
+ * @see https://www.benchresources.net/java-8-how-to-sort-list-by-java-time-localdatetime-in-4-ways/
+ */
+class DateComparator implements Comparator<AccidentReport> { 
+
+ public int compare(AccidentReport s1, AccidentReport s2) 
+ { 
+	 return s1.getStartTime().compareTo(s2.getStartTime());  
+ }
+ 
+}
