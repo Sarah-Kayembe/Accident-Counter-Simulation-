@@ -1,0 +1,69 @@
+/**
+ * QueueSim - class used to read a CSV file of type AccidentReport,
+ * and turn it into a queue object
+ * @author esther greene
+ * @version February 26, 2024
+ */
+
+package accidentpack;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+
+public class QueueSim {
+	ArrayList<AccidentReport> arraylist;
+	Queue<AccidentReport> queue;
+	
+	/**
+	 * QueueSim A constructor for the QueueSim class
+	 * @param accidents A List of type AccidentReport used to create a new queue
+	 */
+	public QueueSim(List<AccidentReport> accidents)
+	{
+		this.arraylist=(ArrayList<AccidentReport>) accidents;
+		queue = new ArrayDeque<AccidentReport>();
+	}
+	
+	/**
+	 * simulation A method which creates and stores an ArrayList as a queue and hen processes it
+	 * @see https://www.geeksforgeeks.org/queue-add-method-in-java/
+	 */
+	public void simulation()
+	{
+		LocalDateTime d1 = arraylist.get(0).getStartTime();
+		LocalDateTime dn = arraylist.get(arraylist.size()-1).getStartTime();
+		for (LocalDateTime date = d1; date.isBefore(dn); date = date.plusDays(1))
+		{
+		    // Add items from arraylist to the queue
+			queue.addAll(arraylist);
+			
+			int counter = 5;
+			int processTime = 24*60*counter;
+			// Process the queue
+			processQueue(queue, processTime);
+			
+		}
+	}
+
+	/**
+	 * processQueue Used to determine the current processTime of a queue and its counters
+	 * @param queue2 A queue of type AccidentReport, originally an ArrayList
+	 * @param processTime The time it takes to process a queue and its counters
+	 */
+	private void processQueue(Queue<AccidentReport> queue2, int processTime) {
+		// TODO Auto-generated method stub
+		while(processTime>0 && !queue2.isEmpty())
+		{
+			AccidentReport temp= queue2.element();
+			int seve = temp.getSeverity();
+			int currentProcessTime = seve*60;
+			processTime-=currentProcessTime;
+		}
+		
+		System.out.println(processTime);
+	}
+}
